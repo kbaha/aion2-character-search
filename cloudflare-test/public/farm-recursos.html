@@ -234,7 +234,7 @@ function zoomToRoute(origin,route){
  const minX=Math.min(...xs),maxX=Math.max(...xs),minY=Math.min(...ys),maxY=Math.max(...ys);
  const dx=Math.max(5,maxX-minX),dy=Math.max(5,maxY-minY);
  const zx=vp.clientWidth*.82/(st.size*dx/100),zy=vp.clientHeight*.82/(st.size*dy/100);
- const z=Math.max(1,Math.min(6,zx,zy));
+ const z=Math.max(1,Math.min(MAX_ZOOM,zx,zy));
  focus((minX+maxX)/2,(minY+maxY)/2,z)
 }
 function buildRoute(){
