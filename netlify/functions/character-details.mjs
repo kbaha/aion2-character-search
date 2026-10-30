@@ -11,7 +11,7 @@ export default async (request) => {
     try {
       const endpoint = 'https://aion2.plaync.com/api/character/'+name+'?'+params.toString();
       const response = await fetch(endpoint,{headers:{'Accept':'application/json, text/plain, */*','Accept-Language':'en-US,en;q=0.9','Referer':'https://aion2.plaync.com/en-us/characters/','User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0'}});
-      if (!response.ok) {const type=response.headers.get('content-type')||'desconhecido';console.log('NCSOFT diagnostic',JSON.stringify({endpoint:name,status:response.status,type,server:response.headers.get('server')||null}));return {data:null,error:name+': NCSOFT HTTP '+response.status+' ('+type+')'};}
+      if (!response.ok) {const type=response.headers.get('content-type')||'desconhecido';let problem='';if(type.includes('json')){try{const body=await response.json();problem=[body.title,body.detail,body.code,body.message].filter(x=>typeof x==='string'||typeof x==='number').map(String).join(' | ').slice(0,240)}catch{}}console.log('NCSOFT diagnostic',JSON.stringify({endpoint:name,status:response.status,type,problem}));return {data:null,error:name+': NCSOFT HTTP '+response.status+' ('+type+')'+(problem?' — '+problem:'')};}
       const type = response.headers.get('content-type')||'';
       if (!type.includes('json')) return {data:null,error:name+': resposta não JSON ('+type+')'};
       return {data:await response.json(),error:null};
