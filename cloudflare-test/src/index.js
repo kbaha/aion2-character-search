@@ -20,7 +20,7 @@ export default {
   if(url.pathname!=='/api/character-details')return makeJson({message:'Use /test ou /api/character-details'});
   const region=url.searchParams.get('region')||'la',characterId=url.searchParams.get('characterId')||'',serverId=url.searchParams.get('serverId')||'';
   if(!allowed.has(region)||!characterId||characterId.length>200||!/^\d{1,12}$/.test(serverId))return makeJson({error:'Identificação inválida'},400);
-  const params=new URLSearchParams({region,lang:'en-US',characterId,serverId});
+  let normalizedId=characterId;for(let i=0;i<2&&/%[0-9a-f]{2}/i.test(normalizedId);i++){try{const next=decodeURIComponent(normalizedId);if(next===normalizedId)break;normalizedId=next}catch{break}}const params=new URLSearchParams({region,lang:'en-US',characterId:normalizedId,serverId});
   const [info,equipment]=await Promise.all([retrieve('info',params),retrieve('equipment',params)]);
   if(!info.data&&!equipment.data)return makeJson({error:'Não foi possível obter os dados oficiais.',warnings:[info.error,equipment.error]},502);
   return makeJson({info:info.data||{},equipment:equipment.data||{},warnings:[info.error,equipment.error].filter(Boolean)});
