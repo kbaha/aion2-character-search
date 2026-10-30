@@ -1,0 +1,14 @@
+{
+  "id": "reshanta-inferior",
+  "label": "Reshanta Inferior",
+  "sourceMap": "Abyss_Reshanta_A",
+  "size": [
+    4096,
+    4096
+  ],
+  "overview": null,
+  "detail": null,
+  "artworkStatus": "pending-license",
+  "reason": "Repository licence explicitly covers public/data; image tiles are in public/UI. Do not redistribute without a confirmed grant.",
+  "metadataSource": "https://data-aion2.tc-imba.com/maps.json"
+}

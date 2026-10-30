@@ -16,13 +16,17 @@ a{color:#a8ceff}a:focus-visible,button:focus-visible,input:focus-visible,select:
 .analysis{margin-top:18px;padding:21px}.analysis>p{margin:5px 0 16px;color:var(--muted);line-height:1.6;font-size:13px}.hotspots{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:11px}.hotspot{border:1px solid #416389;background:#14263e;color:#f2f7ff;text-align:left;border-radius:12px;padding:16px;cursor:pointer}.hotspot:hover{border-color:#a8cbff}.hotspot strong{display:block;font-size:19px;color:#bdd8ff;margin:6px 0}.hotspot small{color:#b0c5de}.notice{border:1px solid #35506f;border-radius:13px;padding:16px 19px;margin:21px 0;color:#afc4df;font-size:12px;line-height:1.7;background:#112238}.notice strong{color:#e3f1ff}footer{font-size:12px;color:#92a8c1;padding-bottom:34px;line-height:1.7}
 @media(max-width:960px){.dashboard{grid-template-columns:1fr}.sidebar{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:20px;align-items:start}.sidebar>h2,.sidebar>.actions,.sidebar>.count{grid-column:1/-1}.map-view{height:70vw;min-height:390px}}
 @media(max-width:650px){.sitebar,main,footer{padding:16px}.intro{margin:18px 0}.sidebar{display:block}.map-view{height:90vw;min-height:360px}.hotspots{grid-template-columns:1fr}.map-top{align-items:start}.map-actions{width:100%;justify-content:flex-end}}
-</style><link rel="stylesheet" href="/assets/aion-theme.css?v=1"></head>
+</style><link rel="stylesheet" href="/assets/aion-theme.css?v=1"><style>
+.aion-page-resources .aion-nav-shell:after{width:min(400px,100%);left:50%;transform:translateX(-50%)}
+.chips button:disabled{opacity:.45;cursor:not-allowed}
+</style></head>
 <body class="aion-page-resources"><header class="aion-nav-shell"><div class="aion-nav-inner"><a class="aion-logo" href="/" aria-label="Aion 2 Hub — Página inicial"><svg viewBox="0 0 64 64" aria-hidden="true" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M32 45 18 27 3 14c5 17 13 29 29 36 16-7 24-19 29-36L46 27 32 45Z" stroke="#ddc593" stroke-width="1.65"/><path d="M32 37 14 18l18 12 18-12-18 19Z" fill="#8bd6dc" fill-opacity=".64"/><path d="M32 11v40M22 23l10-13 10 13" stroke="#f1d9ad" stroke-width="1.5" stroke-linecap="round"/><path d="M5 17 20 36 32 44 44 36 59 17" stroke="#8bd6dc" stroke-width="1" opacity=".75"/></svg><span>AION <span style="color:#9ddce3">2</span><small>HUB · ATREIA</small></span></a><nav class="aion-nav-links" aria-label="Navegação principal"><a href="/">Início</a><a href="/search.html" >Personagens</a><a href="/maps.html" >Atlas</a><a href="/farm-recursos.html" aria-current="page" >Coleta</a><a href="/farm-verteron.html" >Kinah</a></nav><a class="aion-nav-cta" href="https://aion2.plaync.com/pt-br/" target="_blank" rel="noopener noreferrer">Aion 2 oficial <span aria-hidden="true">↗</span></a></div></header>
 <main>
-<section class="intro"><span class="aion-page-kicker">Atreia · Arquivo de coleta</span><h1>Os tesouros de Atreia.</h1><p>Mais de cinco mil posições de coleta cadastradas pela comunidade, exibidas diretamente sobre os mapas de Verteron e Altgard. Encontre áreas com maior concentração, filtre materiais e planeje sua sequência de coleta.</p></section>
+<section class="intro"><span class="aion-page-kicker">Atreia · Arquivo de coleta</span><h1>Os tesouros de Atreia.</h1><p>Mais de cinco mil posições de coleta cadastradas pela comunidade, exibidas diretamente sobre os mapas de Verteron e Altgard. Encontre áreas com maior concentração, filtre materiais e planeje sua sequência de coleta. Reshanta Inferior tem uma camada comunitária adicional, com cobertura e imagem de fundo pendentes.</p></section>
+<div id="coverage-notice" class="notice" role="status" hidden></div>
 <div class="dashboard">
 <aside class="sidebar" aria-label="Controles do mapa"><h2>Configurar farm</h2>
-<div class="field"><label for="zone">Região do Global</label><select id="zone"><option value="verteron">Verteron · Elyos</option><option value="altgard">Altgard · Asmodianos</option></select></div>
+<div class="field"><label for="zone">Região do Global</label><select id="zone"><option value="verteron">Verteron · Elyos</option><option value="altgard">Altgard · Asmodianos</option><option value="reshanta-inferior">Reshanta Inferior · Abismo</option></select></div>
 <div class="field"><label>Categoria de recurso</label><div class="chips" id="category-buttons"></div></div>
 <div class="field"><label for="specific">Recurso específico</label><select id="specific"></select></div>
 <div class="icon-preview"><img id="selected-icon" src="/assets/resource-icons/color-odyle.webp" alt="" width="32" height="32"><span id="selected-icon-label">Ícone original da categoria de coleta</span></div>
@@ -51,17 +55,18 @@ a{color:#a8ceff}a:focus-visible,button:focus-visible,input:focus-visible,select:
 <canvas id="map-art" class="map-art" role="img" aria-label="Mapa da região selecionada"></canvas><canvas id="pins" class="map-overlay" aria-hidden="true"></canvas>
 <div class="map-loading" id="loading">Carregando mapa e coordenadas…</div>
 <div class="popup" id="popup" hidden><div class="popup-title"><img id="pop-icon" class="popup-icon" alt="" hidden><strong id="pop-name"></strong></div><p id="pop-coords"></p><button id="mark" type="button">Marcar visitado</button><button id="use-teleport" type="button" hidden>Usar como origem</button><button id="close-pop" class="secondary" type="button">Fechar</button></div>
-</div><div class="map-hint">Arraste para navegar · Use a roda do mouse, a barra de zoom ou o gesto de pinça no celular · Até 24× de aproximação e mapa HD de 8.192 pixels; zoom extremo amplia o detalhe disponível na imagem original · Recursos com imagens coloridas originais de sua família; algumas imagens são representativas · Desmarque os ícones para voltar aos pontos coloridos · T indica teleporte.</div>
+</div><div class="map-hint">Arraste para navegar · Use a roda do mouse, a barra de zoom ou o gesto de pinça no celular · Até 24× de aproximação; Verteron e Altgard têm mapa HD de 8.192 pixels. Reshanta: imagem pendente; zoom extremo amplia o detalhe disponível na imagem original · Recursos com imagens coloridas originais de sua família; algumas imagens são representativas · Desmarque os ícones para voltar aos pontos coloridos · T indica teleporte.</div>
 </section>
 </div>
 <section class="analysis"><h2>Áreas com maior concentração</h2><p>Concentração calculada a partir de células de 10% × 10% do mapa. Cada cartão leva à área correspondente; os valores são quantidades de pontos cadastrados, não de itens garantidos.</p><div class="hotspots" id="hotspots"><span class="small">Carregando concentrações…</span></div></section>
-<div class="notice"><strong>Origem e limitações:</strong> posições de coleta e marcadores de teleporte extraídos dos dados comunitários do <a href="https://github.com/aion2-interactive-map/aion2-interactive-map" target="_blank" rel="noopener noreferrer">Aion 2 Interactive Map (tc-imba)</a>, por meio dos arquivos adaptados do <a href="https://github.com/problem-xyz/aion2-map-overlay" target="_blank" rel="noopener noreferrer">Aion 2 Map Overlay (problem-xyz)</a>, obtidos na origem em 02/10/2026. Usamos somente os nós de coleta, coordenadas compactadas e agrupamentos calculados nesta página. Os dados comunitários e as imagens de mapa adaptadas estão sob <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener noreferrer">CC BY-NC 4.0</a> (atribuição e uso não comercial). Os ícones das categorias de coleta são arquivos originais do jogo, provenientes do acervo comunitário <a href="https://github.com/oscarxdev/aion2-icons" target="_blank" rel="noopener noreferrer">oscarxdev/aion2-icons</a>; seus direitos permanecem com a NCSOFT e a disponibilidade no GitHub não concede uma licença de uso comercial. Arte e marcas de Aion 2 © NCSOFT. O mapa não representa rastreamento de nós ativos ou disponibilidade de teleporte. Circuitos são aproximações geométricas, não rotas de terreno. A elevação pode exigir outro caminho no jogo.</div>
+<div class="notice"><strong>Reshanta Inferior:</strong> dados de <a href="https://data-aion2.tc-imba.com/markers/Abyss_Reshanta_A.json" target="_blank" rel="noopener noreferrer">tc-imba / Yihao Liu</a>, consultados em 30/10/2026, adaptados para coordenadas percentuais (CC BY-NC 4.0). A fonte documenta 240 posições de Odyle e 2 teleportes, mas não identifica a versão do cliente. A <a href="https://metabot.gg/en/aion-2/map/chaotic-lower-reshanta/gathering" target="_blank" rel="noopener noreferrer">base MetaBot do Global</a> informa 216 nós: a equivalência dos pontos permanece pendente. Nenhum outro material foi presumido. A grade não representa terreno; a arte de fundo aguarda licença de reutilização confirmada. <a href="/data/README-reshanta.md">Proveniência e pendências</a>.<br><strong>Verteron e Altgard — origem e limitações:</strong> posições de coleta e marcadores de teleporte extraídos dos dados comunitários do <a href="https://github.com/aion2-interactive-map/aion2-interactive-map" target="_blank" rel="noopener noreferrer">Aion 2 Interactive Map (tc-imba)</a>, por meio dos arquivos adaptados do <a href="https://github.com/problem-xyz/aion2-map-overlay" target="_blank" rel="noopener noreferrer">Aion 2 Map Overlay (problem-xyz)</a>, obtidos na origem em 02/10/2026. Usamos somente os nós de coleta, coordenadas compactadas e agrupamentos calculados nesta página. Os dados comunitários e as imagens de mapa adaptadas estão sob <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener noreferrer">CC BY-NC 4.0</a> (atribuição e uso não comercial). Os ícones das categorias de coleta são arquivos originais do jogo, provenientes do acervo comunitário <a href="https://github.com/oscarxdev/aion2-icons" target="_blank" rel="noopener noreferrer">oscarxdev/aion2-icons</a>; seus direitos permanecem com a NCSOFT e a disponibilidade no GitHub não concede uma licença de uso comercial. Arte e marcas de Aion 2 © NCSOFT. O mapa não representa rastreamento de nós ativos ou disponibilidade de teleporte. Circuitos são aproximações geométricas, não rotas de terreno. A elevação pode exigir outro caminho no jogo.</div>
 </main><footer>Projeto independente, não afiliado à NCSOFT · Aion 2 Hub · Coordenadas de comunidade, sujeitas a mudanças em atualizações do Global</footer>
 <script>
 (function(){
 'use strict';
 const $=id=>document.getElementById(id),SIZE=1000,MAX_ZOOM=24;
 const mapBase='https://raw.githubusercontent.com/problem-xyz/aion2-map-overlay/main/assets/maps/';
+const zoneNames={verteron:'Verteron · Elyos',altgard:'Altgard · Asmodianos','reshanta-inferior':'Reshanta Inferior · Abismo'};
 const images={verteron:{overview:mapBase+'verteron/reference.webp',detail:mapBase+'verteron/detail.webp'},altgard:{overview:mapBase+'altgard/reference.webp',detail:mapBase+'altgard/detail.webp'}};
 let mapImages=null, mapFrame=null;
 const labels={all:'Todos',odyle:'Odyle',ore:'Minérios',gems:'Gemas',plants:'Plantas',wood:'Madeira'},groups=['all','odyle','ore','gems','plants','wood'];
@@ -93,7 +98,7 @@ function updateIconPreview(){
 const st={zone:'verteron',group:'odyle',specific:'all',points:[],cats:[],teleports:[],selected:null,selectedTeleport:null,route:[],routeOrigin:null,hotspots:[],zoom:1,tx:0,ty:0,size:0,drag:null,visited:new Set(),hideDone:false,density:true,useGameIcons:true,showTeleports:true,startMode:'dense',teleportIndex:0,manualStart:null,picking:false,circuit:true,stopCount:12};
 const cache=new Map(),vp=$('viewport'),mapCanvas=$('map-art'),mapCtx=mapCanvas.getContext('2d'),canvas=$('pins'),ctx=canvas.getContext('2d');
 const query=new URLSearchParams(location.search);
-if(['verteron','altgard'].includes(query.get('zone')))st.zone=query.get('zone');
+if(Object.hasOwn(zoneNames,query.get('zone')))st.zone=query.get('zone');
 if(groups.includes(query.get('group')))st.group=query.get('group');
 if(query.get('type'))st.specific=query.get('type');
 if(['dense','map','teleport'].includes(query.get('start')))st.startMode=query.get('start');
@@ -111,7 +116,7 @@ function loadVisited(){try{const raw=localStorage.getItem('aion2-hub-gather-visi
 function saveVisited(){try{localStorage.setItem('aion2-hub-gather-visited-v1',JSON.stringify([...st.visited]))}catch{}}
 loadVisited();
 for(const key of groups){const b=document.createElement('button');b.type='button';b.dataset.group=key;b.textContent=labels[key];b.addEventListener('click',()=>{st.group=key;st.specific='all';resetRoute();st.selected=null;$('popup').hidden=true;refreshFilters();renderAll();syncUrl()});$('category-buttons').append(b)}
-function refreshFilters(){for(const b of $('category-buttons').children)b.setAttribute('aria-pressed',String(b.dataset.group===st.group));const select=$('specific');select.replaceChildren();const available=st.cats.filter(c=>st.group==='all'||categoryKind(c)===st.group);for(const [id,name] of [['all','Todos os tipos'],...available.map(c=>[c.id,c.name])]){const o=document.createElement('option');o.value=id;o.textContent=name;select.append(o)}if(!available.some(c=>c.id===st.specific))st.specific='all';select.value=st.specific;updateIconPreview()}
+function refreshFilters(){for(const b of $('category-buttons').children){const available=b.dataset.group==='all'||st.cats.some(c=>categoryKind(c)===b.dataset.group);b.disabled=!available;b.title=available?'':'Sem posições documentadas nesta base';b.setAttribute('aria-pressed',String(b.dataset.group===st.group));}const select=$('specific');select.replaceChildren();const available=st.cats.filter(c=>st.group==='all'||categoryKind(c)===st.group);for(const [id,name] of [['all','Todos os tipos'],...available.map(c=>[c.id,c.name])]){const o=document.createElement('option');o.value=id;o.textContent=name;select.append(o)}if(!available.some(c=>c.id===st.specific))st.specific='all';select.value=st.specific;updateIconPreview()}
 function matches(p){const c=st.cats[p[0]];if(!c)return false;if(st.group!=='all'&&categoryKind(c)!==st.group)return false;if(st.specific!=='all'&&c.id!==st.specific)return false;if(st.hideDone&&st.visited.has(pointKey(p)))return false;return true}
 function currentPoints(){return st.points.filter(matches)}
 function updateCounts(points){$('visible-count').textContent=points.length.toLocaleString('pt-BR');$('visible-label').textContent='Pontos visíveis nesta seleção';const total=st.points.filter(p=>{const c=st.cats[p[0]];return c&&(st.group==='all'||categoryKind(c)===st.group)&&(st.specific==='all'||c.id===st.specific)});$('done-count').textContent=total.filter(p=>st.visited.has(pointKey(p))).length+' visitados de '+total.length.toLocaleString('pt-BR')}
@@ -127,7 +132,7 @@ function updateZoomControls(){
 // Draw the visible source crop at screen resolution. A scaled CSS image can be
 // rasterized at its small layout size before compositing, losing the HD detail.
 function loadMapImage(level){
- const state=mapImages;if(!state||state[level])return;
+ const state=mapImages;if(!state||state[level]||!images[state.zone]?.[level])return;
  const entry={image:new Image(),status:'loading'};state[level]=entry;
  entry.image.decoding='async';entry.image.draggable=false;
  entry.image.onload=()=>{entry.status='ready';if(mapImages===state)scheduleMapRender()};
@@ -147,6 +152,12 @@ function renderMap(){
  if(mapCanvas.width!==bw||mapCanvas.height!==bh){mapCanvas.width=bw;mapCanvas.height=bh}
  mapCtx.setTransform(dpr,0,0,dpr,0,0);mapCtx.clearRect(0,0,w,h);
  if(!mapImages||mapImages.zone!==st.zone)return;
+ if(!images[st.zone]?.overview){
+  $('map-quality').textContent='Grade de coordenadas · imagem do mapa pendente de licença';
+  const sc=st.size*st.zoom;mapCtx.strokeStyle='#496274';mapCtx.fillStyle='#afc4df';mapCtx.font='11px system-ui';mapCtx.lineWidth=1;
+  for(let i=0;i<=100;i+=10){const x=st.tx+i/100*sc,y=st.ty+i/100*sc;mapCtx.beginPath();mapCtx.moveTo(x,st.ty);mapCtx.lineTo(x,st.ty+sc);mapCtx.moveTo(st.tx,y);mapCtx.lineTo(st.tx+sc,y);mapCtx.stroke();if(x>=0&&x<w)mapCtx.fillText(i+'%',x+3,14);if(y>=20&&y<h)mapCtx.fillText(i+'%',3,y-3)}
+  return;
+ }
  const hd=mapImages.detail,overview=mapImages.overview;
  const entry=hd?.status==='ready'?hd:overview?.status==='ready'?overview:null;
  const quality=$('map-quality');
@@ -224,20 +235,58 @@ function renderCanvas(){
 }
 function renderAll(){const points=currentPoints();st.hotspots=computeHotspots(points);updateCounts(points);updateHotspotCards();renderCanvas()}
 function syncUrl(){const q=new URLSearchParams();q.set('zone',st.zone);q.set('group',st.group);if(st.specific!=='all')q.set('type',st.specific);if(st.startMode!=='dense')q.set('start',st.startMode);if(st.startMode==='teleport')q.set('teleport',String(st.teleportIndex));if(st.startMode==='map'&&st.manualStart){q.set('x',String(st.manualStart[0]));q.set('y',String(st.manualStart[1]))}if(st.stopCount!==12)q.set('stops',String(st.stopCount));if(!st.circuit)q.set('roundtrip','0');history.replaceState(null,'',location.pathname+'?'+q)}
-async function openZone(){const zone=st.zone;cancelMapGesture();mapImages=null;scheduleMapRender();$('loading').textContent='Carregando pontos de '+(zone==='verteron'?'Verteron':'Altgard')+'…';$('loading').hidden=false;st.selected=null;st.selectedTeleport=null;resetRoute();$('popup').hidden=true;$('map-name').textContent=zone==='verteron'?'Verteron · Elyos':'Altgard · Asmodianos';try{let data=cache.get(zone);if(!data){const response=await fetch('/data/recursos-'+zone+'.json');if(!response.ok)throw Error('HTTP '+response.status);data=await response.json();if(!Array.isArray(data.categories)||!Array.isArray(data.points)||!Array.isArray(data.teleports))throw Error('Formato de dados inválido');cache.set(zone,data)}if(zone!==st.zone)return;st.cats=data.categories;st.points=data.points;st.teleports=data.teleports;$('teleport-count').textContent='('+st.teleports.length+')';if(st.teleportIndex>=st.teleports.length)st.teleportIndex=0;refreshStartControls();$('map-subtitle').textContent=data.points.length.toLocaleString('pt-BR')+' pontos registrados · dados comunitários';mapImages={zone};mapCanvas.setAttribute('aria-label','Mapa original de '+(zone==='verteron'?'Verteron':'Altgard')+' do Aion 2');loadMapImage('overview');refreshFilters();reset();renderAll();$('loading').hidden=true}catch(e){$('loading').textContent='Não foi possível carregar as coordenadas: '+e.message;$('map-subtitle').textContent='Erro de dados'}}
+async function openZone(){
+ const zone=st.zone;
+ cancelMapGesture();mapImages=null;st.points=[];st.cats=[];st.teleports=[];st.hotspots=[];
+ st.selected=null;st.selectedTeleport=null;resetRoute();$('popup').hidden=true;
+ $('loading').textContent='Carregando pontos de '+zoneNames[zone]+'…';$('loading').hidden=false;
+ $('map-name').textContent=zoneNames[zone];$('coverage-notice').hidden=true;
+ $('route').disabled=true;refreshFilters();renderAll();scheduleMapRender();
+ try{
+  let data=cache.get(zone);
+  if(!data){
+   const response=await fetch('/data/recursos-'+zone+'.json');
+   if(!response.ok)throw Error('HTTP '+response.status);
+   data=await response.json();
+   if(!Array.isArray(data.categories)||!Array.isArray(data.points)||!Array.isArray(data.teleports))throw Error('Formato de dados inválido');
+   cache.set(zone,data);
+  }
+  if(zone==='reshanta-inferior'&&!images[zone]){
+   const response=await fetch('/assets/maps/reshanta-inferior/manifest.json');
+   if(!response.ok)throw Error('Manifesto HTTP '+response.status);
+   const manifest=await response.json();
+   images[zone]={overview:manifest.overview,detail:manifest.detail};
+  }
+  if(zone!==st.zone)return;
+  st.cats=data.categories;st.points=data.points;st.teleports=data.teleports;
+  if(st.group!=='all'&&!st.cats.some(c=>categoryKind(c)===st.group))st.group='all';
+  $('coverage-notice').textContent=data.coverage?.notice||'';
+  $('coverage-notice').hidden=!data.coverage?.notice;
+  $('teleport-count').textContent='('+st.teleports.length+')';
+  if(st.teleportIndex>=st.teleports.length)st.teleportIndex=0;
+  refreshStartControls();$('route').disabled=!st.points.length;
+  $('map-subtitle').textContent=data.points.length.toLocaleString('pt-BR')+' pontos registrados · dados comunitários';
+  mapImages={zone};mapCanvas.setAttribute('aria-label',zone==='reshanta-inferior'?'Grade de coordenadas de Reshanta Inferior; imagem geográfica pendente':'Mapa original de '+zoneNames[zone]+' do Aion 2');
+  loadMapImage('overview');refreshFilters();reset();renderAll();syncUrl();$('loading').hidden=true;
+ }catch(e){
+  if(zone!==st.zone)return;
+  $('loading').textContent='Não foi possível carregar as coordenadas: '+e.message;
+  $('map-subtitle').textContent='Erro de dados';
+ }
+}
 function dist(a,b){return Math.hypot(a[0]-b[0],a[1]-b[1])}
 function showStartStatus(){
  $('teleport-row').hidden=st.startMode!=='teleport';$('map-start-row').hidden=st.startMode!=='map';
  $('start-mode').value=st.startMode;$('choose-start').setAttribute('aria-pressed',String(st.picking));
  $('choose-start').textContent=st.picking?'Clique no local desejado…':'Escolher posição no mapa';
  const point=st.startMode==='map'?st.manualStart:st.startMode==='teleport'?st.teleports[st.teleportIndex]:null;
- $('start-status').textContent=st.startMode==='dense'?'Origem automática: a região mais densa do filtro.':st.startMode==='map'?(point?'Ponto manual: '+point[0].toFixed(2)+'%, '+point[1].toFixed(2)+'%.':'Clique em “Escolher posição no mapa” e marque sua origem.'):point?'Teleporte '+(st.teleportIndex+1)+' de '+st.teleports.length+' · '+point[0].toFixed(2)+'%, '+point[1].toFixed(2)+'%.':'Carregando teleporte cadastrado…';
+ $('start-status').textContent=st.startMode==='dense'?'Origem automática: a região mais densa do filtro.':st.startMode==='map'?(point?'Ponto manual: '+point[0].toFixed(2)+'%, '+point[1].toFixed(2)+'%.':'Clique em “Escolher posição no mapa” e marque sua origem.'):point?'Teleporte '+(st.teleportIndex+1)+' de '+st.teleports.length+' · '+point[0].toFixed(2)+'%, '+point[1].toFixed(2)+'%.':'Nenhum teleporte documentado para esta região.';
  $('choose-start-status').textContent=st.picking?'Toque uma vez sobre o mapa para marcar o início. Você ainda pode arrastar e usar zoom.':'Defina a posição de partida usando o botão acima.';
 }
 function refreshStartControls(){
  const el=$('teleport-select');el.replaceChildren();
  for(let i=0;i<st.teleports.length;i++){const p=st.teleports[i],o=document.createElement('option');o.value=String(i);o.textContent='Teleporte '+(i+1)+' · '+p[0].toFixed(1)+'%, '+p[1].toFixed(1)+'%';el.append(o)}
- el.value=String(st.teleportIndex);showStartStatus();
+ el.value=String(st.teleportIndex);el.disabled=!st.teleports.length;showStartStatus();
 }
 function resetRoute(){st.route=[];st.routeOrigin=null;$('route-summary').textContent='Escolha os filtros e calcule um circuito.';$('route-stops').replaceChildren();$('map-subtitle').textContent=st.points.length.toLocaleString('pt-BR')+' pontos registrados · dados comunitários'}
 function nearestPoint(cx,cy){const x=(cx-st.tx)/(st.size*st.zoom)*100,y=(cy-st.ty)/(st.size*st.zoom)*100;let best=null,bestD=Infinity;for(const p of currentPoints()){const dx=(p[1]-x)*st.size*st.zoom/100,dy=(p[2]-y)*st.size*st.zoom/100,d=dx*dx+dy*dy;if(d<bestD){bestD=d;best=p}}return bestD<225?{point:best,distance:bestD}:null}
@@ -306,7 +355,7 @@ $('zoom-out').addEventListener('click',()=>zoomAt(st.zoom/1.35,vp.clientWidth/2,
 $('zoom-slider').addEventListener('input',()=>zoomAt(Number($('zoom-slider').value),vp.clientWidth/2,vp.clientHeight/2));
 $('mark').addEventListener('click',()=>{if(!st.selected)return;const key=pointKey(st.selected);if(st.visited.has(key))st.visited.delete(key);else st.visited.add(key);saveVisited();$('mark').textContent=st.visited.has(key)?'Desmarcar visitado':'Marcar visitado';if(st.hideDone)resetRoute();renderAll()});
 $('close-pop').addEventListener('click',()=>{st.selected=null;st.selectedTeleport=null;$('popup').hidden=true;renderCanvas()});
-$('clear-visited').addEventListener('click',()=>{if(!confirm('Limpar todos os pontos visitados em Verteron e Altgard?'))return;st.visited.clear();saveVisited();renderAll()});
+$('clear-visited').addEventListener('click',()=>{if(!confirm('Limpar todos os pontos visitados em Verteron, Altgard e Reshanta Inferior?'))return;st.visited.clear();saveVisited();renderAll()});
 $('share').addEventListener('click',async()=>{syncUrl();const b=$('share');try{await navigator.clipboard.writeText(location.href);b.textContent='Link copiado!'}catch{b.textContent='Copie o endereço do navegador'}setTimeout(()=>b.textContent='Copiar link do filtro',2500)});
 vp.addEventListener('dragstart',e=>e.preventDefault());
 vp.addEventListener('wheel',e=>{
