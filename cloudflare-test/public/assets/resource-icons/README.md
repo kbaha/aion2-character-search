@@ -40,3 +40,33 @@ O mapa tem uma caixa **Ícones originais do mapa do jogo** para alternar entre �
 - O preload assíncrono mantém a interface responsiva.
 - O renderizador preserva os dados geográficos, as rotas, o zoom, os pontos visitados e os marcadores de teleporte.
 - `resourceIconTypes` atualmente mapeia 21 tipos de recursos para 7 ícones de categorias.
+
+## 30/10/2026 — Ícones coloridos dos recursos
+
+A pasta `resource-icons/` também contém 11 arquivos **`color-*.webp`** extraídos do cliente do jogo, oriundos de `oscarxdev/aion2-icons/Item/ETC/`. Eles são exibidos por padrão no mapa. Os arquivos `*.webp` anteriores de marcadores brancos continuam disponíveis para referência; a opção de desligar os ícones muda a visualização para **pontos coloridos**.
+
+| Arquivo colorido | Arquivo original de referência | Representação |
+|---|---|---|
+| `color-odyle.webp` | `Icon_Gather_Od_L_lv1_01a.webp` | Odyle verde |
+| `color-metal.webp` | `Icon_Gather_Ore_L_lv1_01a.webp` | Minério |
+| `color-wood.webp` | `Icon_Gather_Wood_L_lv1_01a.webp` | Madeira |
+| `color-herb.webp` | `Icon_Gather_Herb_L_lv1_01a.webp` | Erva |
+| `color-flower.webp` | `Icon_Item_Gather_Herb_L_c_002.webp` | Flor |
+| `color-berry.webp` | `Icon_Item_Gather_Food_L_c_003.webp` | Fruta |
+| `color-vegetable.webp` | `Icon_Item_Gather_Food_L_c_001.webp` | Vegetal |
+| `color-shellfish.webp` | `Icon_Gather_Food_L_lv1_01c.webp` | Recurso aquático |
+| `color-sapphire.webp` | `Icon_Item_Gather_Gemstone_A_c_002.webp` | Cristal azul |
+| `color-ruby.webp` | `Icon_Item_Gather_Gemstone_A_c_004.webp` | Cristal vermelho |
+| `color-diamond.webp` | `Icon_Item_Gather_Gemstone_A_l_001.webp` | Cristal branco |
+
+**Importante:** são imagens originais *dos itens/famílias*, mas a associação com um nó específico pode ser apenas ilustrativa. Não são ícones de coleta distintos e identificados individualmente para todos os nomes de materiais. A identidade do nó vem de sua categoria na base geográfica. Não atribua raridades, taxas de drop ou variantes específicas somente pela aparência da imagem.
+
+## Zoom e precisão
+
+- Zoom máximo ampliado de **6× para 24×**, via botões, roda do mouse, barra deslizante ou pinça em telas sensíveis ao toque.
+- Ao aproximar a partir de 1,7×, a ferramenta solicita a imagem `detail.webp` de **8.192 × 8.192** pixels da fonte comunitária; se falhar, mantém a imagem de **4.096 × 4.096** pixels.
+- Os marcadores são desenhados em um Canvas independente, em resolução de tela, para não ficarem borrados ao aplicar transformações no fundo.
+- Mais zoom **não** aumenta a precisão das coordenadas originais: a origem dos pontos permanece a base comunitária e pode apresentar limites de localização/altitude.
+- O carregamento de imagens HD é sob demanda e pode consumir memória e dados, especialmente em celulares.
+
+Para conferir: `https://aion2.skgaming.bid/farm-recursos.html`. Se ainda vir a versão antiga, confira o deploy da Cloudflare e atualize o cache do navegador.
