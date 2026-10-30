@@ -291,3 +291,66 @@ body .pageintro{margin-top:3px!important}
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}
 }
+/* Distinctive treatment for each inner tool, without modifying its behavior */
+body>main.home-main{padding-top:0!important}
+.aion-page-search .layout{grid-template-columns:minmax(285px,410px) minmax(0,1fr);align-items:start;gap:21px}
+.aion-page-search .layout .panel{padding:clamp(20px,3vw,32px)!important}
+.aion-page-search .layout>.panel:first-child{border-top:2px solid #cbb181!important}
+.aion-page-search .layout .results{min-height:420px;border-top:2px solid #75bac3!important}
+.aion-page-search .panel h2{font-size:21px!important;color:#eedfbc}
+.aion-page-search .hint{color:#9fbbc2}
+.aion-page-search #search-form label{color:#bcd1ce!important;font-weight:800;font-size:11px;letter-spacing:.095em;text-transform:uppercase}
+.aion-page-search #search-form input,.aion-page-search #search-form select{min-height:50px;border-color:#446370!important}
+.aion-page-search #search-form button{min-height:52px;font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+.aion-page-search .placeholder{position:relative;padding:54px 20px;color:#9cb6bd}
+.aion-page-search .placeholder .symbol{display:grid;place-items:center;margin:0 auto 17px;border-radius:50%;border:1px solid #d8b77b4a;width:91px;height:91px;font-size:55px!important;line-height:1;background:radial-gradient(circle,#3970807d,#0d293724 70%);color:#d9c49a;box-shadow:0 0 0 11px #5c839516,0 0 0 24px #5c839509}
+.aion-page-search .placeholder strong{color:#e9e0cb;font-family:'Cinzel',serif;font-size:19px}
+.aion-page-search #result .item{background:linear-gradient(90deg,#112635,#0d1c29)!important;border-color:#426575!important;border-left:2px solid #bda77e!important;border-radius:4px!important}
+.aion-page-search #result .item:hover{border-color:#c9bb91!important}
+.aion-page-search #result .item strong{color:#ebdcba}
+.aion-page-search #result .item a{color:#89deeb!important;font-size:12px;text-transform:uppercase;letter-spacing:.06em}
+.aion-page-search .results-head{border-color:#537078!important}
+.aion-page-search .results-head span{color:#8bb5b6}
+.aion-page-maps .aion-atlas-intro{max-width:100%;background:radial-gradient(ellipse 50% 90% at 90% 65%,#16455457,transparent 80%)}
+.aion-page-maps .aion-atlas-intro h1{max-width:790px}
+.aion-page-maps #region-filters{margin-bottom:23px}
+.aion-page-maps #region-cards{margin-bottom:36px}
+.aion-page-maps .card{min-height:195px;padding:24px!important}
+.aion-page-maps .card h3{font-size:20px!important}
+.aion-page-maps .card a{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:900;letter-spacing:.02em;color:#e3c48d!important}
+.aion-page-maps .notice{padding:23px 27px!important}
+.aion-page-maps .notice strong{color:#e7d5ae}
+.aion-page-maps .notice a[href="/farm-recursos.html"]{display:inline-flex!important;border:1px solid #eed6aa!important;color:#122531!important;background:linear-gradient(115deg,#ebcd96,#bda16e)!important;border-radius:4px!important;font-size:12px;letter-spacing:.05em;text-transform:uppercase}
+.aion-page-maps h2{font-size:clamp(23px,3vw,32px)!important;font-weight:500;color:#eddfbf}
+.aion-page-maps .resource-head label{color:#d8c49b}
+.aion-page-maps .resource-head select{min-width:220px}
+.aion-page-character .pageintro{margin-bottom:20px!important}
+.aion-page-character .hero.panel{min-height:230px}
+.aion-page-character .avatar{width:116px!important;height:116px!important}
+.aion-page-character #content .hero h1{font-weight:500}
+.aion-page-character .item{gap:15px!important;padding:14px!important}
+.aion-page-character .item img{width:52px!important;height:52px!important}
+.aion-page-character .tabs{border-top:1px solid #a3a882!important}
+.aion-page-character .section.active{animation:aion-enter .24s ease}
+.aion-page-character .section .panel{border-top:1px solid #7eaca8!important}
+.aion-page-character .modalbox{border-radius:7px!important}
+.aion-page-character .modalbox header{border-color:#3b626c!important}
+.aion-page-resources .intro h1{color:#e9e0c5}
+.aion-page-resources .sidebar h2{font-size:21px!important}
+.aion-page-resources .map-top strong{font-family:'Cinzel',Georgia,serif!important;color:#e9dab4;font-size:18px!important;font-weight:500}
+.aion-page-resources .field label,.aion-page-resources .subhead{color:#d3bd91!important}
+.aion-page-resources .sidebar input[type=checkbox]{min-height:auto;accent-color:#b6ad80}
+.aion-page-resources .map-quality{color:#79bfc9}
+.aion-page-resources .analysis{margin-top:18px}
+.aion-page-kinah>header:not(.aion-nav-shell){max-width:1380px;padding:38px clamp(18px,3.6vw,48px) 16px!important}
+.aion-page-kinah>header h1{font-size:clamp(37px,4.7vw,59px)!important;color:#efe4cf}
+.aion-page-kinah>header p{max-width:750px;font-size:15px;color:#adc4c6}
+.aion-page-kinah .pill{background:#163243!important;border:1px solid #6c938f!important;border-radius:3px!important;padding:8px 13px;color:#d6bd87!important}
+.aion-page-kinah .overview{padding:18px!important}
+.aion-page-kinah .section-title{font-weight:500;font-size:30px!important}
+.aion-page-kinah .card .meta h3{font-weight:500;color:#e6d4aa}
+.aion-page-kinah .card .meta strong{color:#e4c993}
+.aion-page-kinah .btn{border:1px solid #77958c!important;color:#d8e4de!important;background:#193444!important}
+.aion-page-kinah .btn:hover{border-color:#d7bf8d!important}
+@keyframes aion-enter{from{opacity:.6;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:850px){.aion-page-search .layout{grid-template-columns:1fr}.aion-page-search .layout .results{min-height:310px}}
